@@ -23,11 +23,11 @@
 #   Extra parameters to pass to slapcat. Make sure you use proper escaping if
 #   option values have spaces in them.
 # [*hour*]
-#   Hour(s) when the agent gets run. Defaults to * (all hours).
+#   Hour(s) when slapcat gets run. Defaults to 01.
 # [*minute*]
-#   Minute(s) when the agent gets run. Defaults to 50.
+#   Minute(s) when slapcat gets run. Defaults to 05.
 # [*weekday*]
-#   Weekday(s) when the agent gets run. Defaults to * (all weekdays).
+#   Weekday(s) when slapcat gets run. Defaults to * (all weekdays).
 #
 # == Examples
 #
@@ -45,8 +45,8 @@ define slapcat::backup
     $suffix,
     $output_dir = '/var/backups/local',
     $slapcat_extra_params = '',
-    $hour = '4',
-    $minute = '30',
+    $hour = '01',
+    $minute = '05',
     $weekday = '*',
 )
 {
