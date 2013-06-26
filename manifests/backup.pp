@@ -28,6 +28,9 @@
 #   Minute(s) when slapcat gets run. Defaults to 05.
 # [*weekday*]
 #   Weekday(s) when slapcat gets run. Defaults to * (all weekdays).
+# [*email*]
+#   Email address where notifications are sent. Defaults to top-scope variable
+#   $::servermonitor.
 #
 # == Examples
 #
@@ -48,6 +51,7 @@ define slapcat::backup
     $hour = '01',
     $minute = '05',
     $weekday = '*',
+    $email = $::servermonitor
 )
 {
 
@@ -68,7 +72,7 @@ define slapcat::backup
         hour => $hour,
         minute => $minute,
         weekday => $weekday,
-        environment => 'PATH=/bin:/usr/bin:/usr/sbin',
+        environment => [ 'PATH=/bin:/usr/bin:/usr/sbin', "MAILTO=${email}" ],
         require => Class['localbackups'],
     }
 }
