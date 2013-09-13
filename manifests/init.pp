@@ -26,7 +26,7 @@
 class slapcat {
 
 # Rationale for this is explained in init.pp of the sshd module
-if hiera('manage_slapcat') != 'false' {
+if hiera('manage_slapcat', 'true') != 'false' {
 
     # This class does nothing at the moment.
 }
