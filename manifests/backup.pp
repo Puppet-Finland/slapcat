@@ -34,13 +34,13 @@
 #
 # == Examples
 #
-# slapcat::backup { 'ldap_directory':
-#   suffix => 'dc=domain,dc=com',
-# }
-#
-# slapcat::backup { 'configdb':
-#   suffix => 'cn=config',
-# }
+#   slapcat::backup { 'ldap_directory':
+#       suffix => 'dc=domain,dc=com',
+#   }
+#   
+#   slapcat::backup { 'configdb':
+#       suffix => 'cn=config',
+#   }
 # 
 define slapcat::backup
 (
