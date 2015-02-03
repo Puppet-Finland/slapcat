@@ -8,7 +8,8 @@
 #
 # == Parameters
 #
-# None at the moment
+# [*backups*]
+#   A hash of slapcat::backup resources to realize
 #
 # == Examples
 #
@@ -22,11 +23,18 @@
 #
 # BSD-license. See file LICENSE for details.
 #
-class slapcat {
+class slapcat
+(
+    $backups = {}
+)
+{
 
 # Rationale for this is explained in init.pp of the sshd module
 if hiera('manage_slapcat', 'true') != 'false' {
 
-    # This class does nothing at the moment.
+
+
+    # Realize the defined backup jobs
+    create_resources('slapcat::backup', $backups)
 }
 }
