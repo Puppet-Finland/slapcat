@@ -1,0 +1,11 @@
+{
+  "name": "puppetfinland-slapcat",
+  "version": "0.3.0",
+  "author": "Puppet-Finland team",
+  "license": "BSD license",
+  "summary": "Manage slapcat-based OpenLDAP backups",
+  "source": "https://github.com/Puppet-Finland/slapcat.git",
+  "project_page": "https://github.com/Puppet-Finland/slapcat",
+  "dependencies": [
+  ]
+}
