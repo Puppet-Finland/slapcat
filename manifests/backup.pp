@@ -11,12 +11,12 @@
 #
 # == Parameters
 #
-# [*status*]
-#   Status of the backup job. Either 'present' or 'absent'. Defaults to 
-#   'present'.
 # [*suffix*]
 #   The suffix of the LDAP directory to backup. The value is automatically 
 #   quoted and can have spaces in it. For example 'dc=domain,dc=com'.
+# [*ensure*]
+#   Status of the backup job. Either 'present' or 'absent'. Defaults to 
+#   'present'.
 # [*output_dir*]
 #   The directory where to output the files. Defaults to /var/backups/local.
 # [*slapcat_extra_params*]
@@ -44,10 +44,10 @@
 # 
 define slapcat::backup
 (
-    $status = 'present',
     $suffix,
+    $ensure = 'present',
     $output_dir = '/var/backups/local',
-    $slapcat_extra_params = '',
+    $slapcat_extra_params = undef,
     $hour = '01',
     $minute = '05',
     $weekday = '*',
@@ -55,24 +55,25 @@ define slapcat::backup
 )
 {
 
-    include slapcat
+    include ::slapcat
+    include ::slapcat::params
 
     # We need this so that we don't end up with useless "" in the command-line 
     # which would upset slapcat's option parser
-    if $slapcat_extra_params == '' {
-        $cron_command = "slapcat -b \"${suffix}\"|gzip > \"${output_dir}/slapcat-${suffix}.ldif.gz\""
-    } else {
+    if $slapcat_extra_params {
         $cron_command = "slapcat -b \"${suffix}\" ${slapcat_extra_params}|gzip > \"${output_dir}/slapcat-${suffix}.ldif.gz\""
+    } else {
+        $cron_command = "slapcat -b \"${suffix}\"|gzip > \"${output_dir}/slapcat-${suffix}.ldif.gz\""
     }
 
     cron { "slapcat-backup-${suffix}-cron":
-        ensure => $status,
-        command => $cron_command,
-        user => root,
-        hour => $hour,
-        minute => $minute,
-        weekday => $weekday,
+        ensure      => $ensure,
+        command     => $cron_command,
+        user        => $::os::params::adminuser,
+        hour        => $hour,
+        minute      => $minute,
+        weekday     => $weekday,
         environment => [ 'PATH=/bin:/usr/bin:/usr/sbin', "MAILTO=${email}" ],
-        require => Class['localbackups'],
+        require     => Class['localbackups'],
     }
 }
