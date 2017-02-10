@@ -58,6 +58,9 @@ define slapcat::backup
     include ::slapcat
     include ::slapcat::params
 
+    # Several other modules will attempt ensure that this same directory exists
+    ensure_resource('file', $output_dir, { 'ensure' => 'directory' })
+
     # We need this so that we don't end up with useless "" in the command-line 
     # which would upset slapcat's option parser
     if $slapcat_extra_params {
@@ -74,6 +77,6 @@ define slapcat::backup
         minute      => $minute,
         weekday     => $weekday,
         environment => [ 'PATH=/bin:/usr/bin:/usr/sbin', "MAILTO=${email}" ],
-        require     => Class['localbackups'],
+        require     => File[$output_dir],
     }
 }
